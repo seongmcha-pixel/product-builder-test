@@ -5,19 +5,6 @@
     --container-background: #ffffff;
     --primary-color: #4f46e5;
     --text-color: #333333;
-    --number-background: #e0e7ff;
-    --number-color: #4338ca;
-    --toggle-button-bg: #f0f2f5;
-}
-
-body.dark-mode {
-    --background-gradient: linear-gradient(to top, #2c3e50 0%, #4ca1af 100%);
-    --container-background: #2c3e50;
-    --primary-color: #818cf8;
-    --text-color: #f0f2f5;
-    --number-background: #3730a3;
-    --number-color: #c7d2fe;
-    --toggle-button-bg: #4ca1af;
 }
 
 body {
@@ -27,26 +14,11 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    min-height: 100vh;
     margin: 0;
     transition: background-image 0.5s, color 0.5s;
-}
-
-#theme-toggle {
-    position: absolute;
-    top: 1rem;
-    right: 1rem;
-    background: var(--toggle-button-bg);
-    border: none;
-    border-radius: 50%;
-    width: 40px;
-    height: 40px;
-    font-size: 1.5rem;
-    cursor: pointer;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    transition: background-color 0.3s;
+    padding: 20px;
+    box-sizing: border-box;
 }
 
 .container {
@@ -56,6 +28,8 @@ body {
     box-shadow: 0 20px 30px rgba(0, 0, 0, 0.15);
     text-align: center;
     transition: background-color 0.5s;
+    width: 100%;
+    max-width: 500px;
 }
 
 h1 {
@@ -64,35 +38,40 @@ h1 {
     font-weight: 600;
 }
 
-.numbers {
+form {
     display: flex;
-    justify-content: center;
-    gap: 1rem;
-    margin-bottom: 2rem;
+    flex-direction: column;
+    text-align: left;
 }
 
-.number {
-    background-color: var(--number-background);
-    color: var(--number-color);
-    width: 50px;
-    height: 50px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 50%;
-    font-size: 1.5rem;
+label {
+    margin-bottom: 0.5rem;
     font-weight: 600;
-    animation: pop-in 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55) forwards;
-    transform: scale(0);
+    color: var(--primary-color);
 }
 
-@keyframes pop-in {
-    to {
-        transform: scale(1);
-    }
+input[type="text"],
+input[type="email"],
+textarea {
+    padding: 0.8rem;
+    margin-bottom: 1.5rem;
+    border: 1px solid #ccc;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    font-family: 'Poppins', sans-serif;
+    width: 100%;
+    box-sizing: border-box;
 }
 
-#generate {
+input[type="text"]:focus,
+input[type="email"]:focus,
+textarea:focus {
+    border-color: var(--primary-color);
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2);
+}
+
+button[type="submit"] {
     background-color: var(--primary-color);
     color: white;
     border: none;
@@ -102,9 +81,10 @@ h1 {
     border-radius: 0.5rem;
     cursor: pointer;
     transition: background-color 0.3s, transform 0.2s;
+    margin-top: 1rem;
 }
 
-#generate:hover {
+button[type="submit"]:hover {
     background-color: #4338ca;
     transform: translateY(-2px);
 }
