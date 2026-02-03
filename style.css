@@ -1,23 +1,52 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
 
 :root {
-    --background-color: #f0f2f5;
+    --background-gradient: linear-gradient(to top, #a18cd1 0%, #fbc2eb 100%);
     --container-background: #ffffff;
     --primary-color: #4f46e5;
     --text-color: #333333;
     --number-background: #e0e7ff;
     --number-color: #4338ca;
+    --toggle-button-bg: #f0f2f5;
+}
+
+body.dark-mode {
+    --background-gradient: linear-gradient(to top, #2c3e50 0%, #4ca1af 100%);
+    --container-background: #2c3e50;
+    --primary-color: #818cf8;
+    --text-color: #f0f2f5;
+    --number-background: #3730a3;
+    --number-color: #c7d2fe;
+    --toggle-button-bg: #4ca1af;
 }
 
 body {
     font-family: 'Poppins', sans-serif;
-    background-image: linear-gradient(to top, #a18cd1 0%, #fbc2eb 100%);
+    background-image: var(--background-gradient);
     color: var(--text-color);
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
     margin: 0;
+    transition: background-image 0.5s, color 0.5s;
+}
+
+#theme-toggle {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: var(--toggle-button-bg);
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    font-size: 1.5rem;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: background-color 0.3s;
 }
 
 .container {
@@ -26,6 +55,7 @@ body {
     border-radius: 1rem;
     box-shadow: 0 20px 30px rgba(0, 0, 0, 0.15);
     text-align: center;
+    transition: background-color 0.5s;
 }
 
 h1 {

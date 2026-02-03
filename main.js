@@ -1,5 +1,6 @@
 const numbersContainer = document.querySelector('.numbers');
 const generateBtn = document.querySelector('#generate');
+const themeToggle = document.getElementById('theme-toggle');
 
 const generateNumbers = () => {
     numbersContainer.innerHTML = '';
@@ -9,7 +10,8 @@ const generateNumbers = () => {
         numbers.add(randomNumber);
     }
 
-    Array.from(numbers).forEach((number, index) => {
+    const sortedNumbers = Array.from(numbers).sort((a, b) => a - b);
+    sortedNumbers.forEach((number, index) => {
         const numberEl = document.createElement('div');
         numberEl.classList.add('number');
         numberEl.textContent = number;
@@ -18,6 +20,29 @@ const generateNumbers = () => {
     });
 };
 
+const toggleTheme = () => {
+    document.body.classList.toggle('dark-mode');
+    if (document.body.classList.contains('dark-mode')) {
+        localStorage.setItem('theme', 'dark-mode');
+        themeToggle.textContent = '☀️';
+    } else {
+        localStorage.removeItem('theme');
+        themeToggle.textContent = '🌙';
+    }
+};
+
+const applyTheme = () => {
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'dark-mode') {
+        document.body.classList.add('dark-mode');
+        themeToggle.textContent = '☀️';
+    } else {
+        themeToggle.textContent = '🌙';
+    }
+};
+
 generateBtn.addEventListener('click', generateNumbers);
+themeToggle.addEventListener('click', toggleTheme);
 
 generateNumbers();
+applyTheme();
