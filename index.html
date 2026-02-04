@@ -3,24 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Partnership Inquiry</title>
+    <title>Lotto and Partnership</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="container">
-        <h1>Partnership Inquiry</h1>
-        <form action="https://formspree.io/f/xkozeqzq" method="POST">
-            <label for="name">Name:</label>
-            <input type="text" id="name" name="name" required>
+        <div class="theme-switcher">
+            <input type="checkbox" id="theme-toggle">
+            <label for="theme-toggle">Toggle Theme</label>
+        </div>
+        <div class="tabs">
+            <button class="tab-link active" onclick="openTab(event, 'lotto')">Lottery Number Generator</button>
+            <button class="tab-link" onclick="openTab(event, 'inquiry')">Partnership Inquiry</button>
+        </div>
 
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" required>
+        <div id="lotto" class="tab-content" style="display: block;">
+            <h1>Lottery Number Generator</h1>
+            <div class="lotto-numbers">
+                <span class="lotto-number"></span>
+                <span class="lotto-number"></span>
+                <span class="lotto-number"></span>
+                <span class="lotto-number"></span>
+                <span class="lotto-number"></span>
+                <span class="lotto-number"></span>
+            </div>
+            <button id="generate-btn">Generate Numbers</button>
+        </div>
 
-            <label for="message">Message:</label>
-            <textarea id="message" name="message" rows="5" required></textarea>
+        <div id="inquiry" class="tab-content">
+            <h1>Partnership Inquiry</h1>
+            <form action="https://formspree.io/f/xkozeqzq" method="POST">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" required>
 
-            <button type="submit">Submit Inquiry</button>
-        </form>
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+
+                <label for="message">Message:</label>
+                <textarea id="message" name="message" rows="5" required></textarea>
+
+                <button type="submit">Submit Inquiry</button>
+            </form>
+        </div>
     </div>
     <script src="main.js"></script>
 </body>

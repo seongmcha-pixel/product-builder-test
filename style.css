@@ -5,7 +5,20 @@
     --container-background: #ffffff;
     --primary-color: #4f46e5;
     --text-color: #333333;
+
+    --dark-background: #121212;
+    --dark-container-background: #1e1e1e;
+    --dark-primary-color: #bb86fc;
+    --dark-text-color: #ffffff;
 }
+
+body.dark-mode {
+    --background-gradient: var(--dark-background);
+    --container-background: var(--dark-container-background);
+    --primary-color: var(--dark-primary-color);
+    --text-color: var(--dark-text-color);
+}
+
 
 body {
     font-family: 'Poppins', sans-serif;
@@ -36,6 +49,49 @@ h1 {
     color: var(--primary-color);
     margin-bottom: 2rem;
     font-weight: 600;
+}
+
+.tabs {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 2rem;
+}
+
+.tab-link {
+    background: none;
+    border: none;
+    padding: 1rem;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    color: var(--text-color);
+    position: relative;
+    transition: color 0.3s;
+}
+
+.tab-link::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 3px;
+    background-color: var(--primary-color);
+    transition: width 0.3s;
+}
+
+.tab-link.active,
+.tab-link:hover {
+    color: var(--primary-color);
+}
+
+.tab-link.active::after {
+    width: 100%;
+}
+
+.tab-content {
+    display: none;
 }
 
 form {
@@ -71,7 +127,7 @@ textarea:focus {
     box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2);
 }
 
-button[type="submit"] {
+button {
     background-color: var(--primary-color);
     color: white;
     border: none;
@@ -84,7 +140,69 @@ button[type="submit"] {
     margin-top: 1rem;
 }
 
-button[type="submit"]:hover {
+button:hover {
     background-color: #4338ca;
     transform: translateY(-2px);
 }
+
+.lotto-numbers {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.lotto-number {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: #f0f0f0;
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+.theme-switcher {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+}
+
+#theme-toggle {
+    display: none;
+}
+
+#theme-toggle + label {
+    font-size: 0;
+    width: 50px;
+    height: 25px;
+    background-color: #ccc;
+    border-radius: 15px;
+    display: inline-block;
+    position: relative;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#theme-toggle + label::after {
+    content: '';
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 21px;
+    height: 21px;
+    background-color: white;
+    border-radius: 50%;
+    transition: transform 0.3s;
+}
+
+#theme-toggle:checked + label {
+    background-color: var(--primary-color);
+}
+
+#theme-toggle:checked + label::after {
+    transform: translateX(25px);
+}
+
