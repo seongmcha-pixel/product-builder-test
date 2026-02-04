@@ -7,10 +7,14 @@ const choices = ["Rock", "Paper", "Scissors"]; // Ensure these match your Teacha
 
 let canPlay = false; // Flag to control when a round can be played
 let timerInterval;
+let animationFrameId; // To store the requestAnimationFrame ID
 let gameStarted = false; // Flag to indicate if the game has started
 
 async function init() {
-    if (gameStarted) return; // Prevent re-initialization if already started
+    if (gameStarted) {
+        // If the game was stopped and init is called again, we need to reset everything
+        resetGame(false); // Reset without clearing webcam, it will be setup again
+    }
     gameStarted = true;
 
     const modelURL = URL + "model.json";
@@ -23,7 +27,7 @@ async function init() {
     webcam = new tmImage.Webcam(200, 200, flip);
     await webcam.setup();
     await webcam.play();
-    window.requestAnimationFrame(loop);
+    animationFrameId = window.requestAnimationFrame(loop); // Store the ID
 
     document.getElementById("webcam-container").innerHTML = ""; // Clear existing content
     document.getElementById("webcam-container").appendChild(webcam.canvas);
@@ -45,13 +49,15 @@ async function init() {
 }
 
 async function loop() {
-    webcam.update();
-    await predict();
-    window.requestAnimationFrame(loop);
+    if (gameStarted && webcam) {
+        webcam.update();
+        await predict();
+        animationFrameId = window.requestAnimationFrame(loop);
+    }
 }
 
 async function predict() {
-    if (!gameStarted || !canPlay) { // Only predict if game started and a round is active
+    if (!gameStarted || !canPlay) {
         return;
     }
 
@@ -70,12 +76,10 @@ async function predict() {
         }
     }
 
-    // Only process game logic if the prediction confidence is high enough (e.g., > 0.8)
-    // and it's not the "Background" class
     if (highestProbability > 0.8 && userChoice !== "Background") {
-        canPlay = false; // Prevent further predictions for this round
+        canPlay = false;
         playRound(userChoice);
-        setTimeout(startCountdown, 2000); // Start new countdown after 2 seconds
+        setTimeout(startCountdown, 2000);
     }
 }
 
@@ -84,17 +88,20 @@ function startCountdown() {
     let count = 3;
     countdownDisplay.innerText = "Get Ready!";
     document.getElementById("game-message").innerText = "Make your move!";
-    document.getElementById("computer-choice").innerText = ""; // Clear computer's previous choice
+    document.getElementById("computer-choice").innerText = "";
 
-    clearInterval(timerInterval); // Clear any existing interval
+    clearInterval(timerInterval);
 
     timerInterval = setInterval(() => {
+        if (!gameStarted) { // Stop countdown if game is stopped
+            clearInterval(timerInterval);
+            return;
+        }
         countdownDisplay.innerText = count;
         if (count === 0) {
             clearInterval(timerInterval);
             countdownDisplay.innerText = "GO!";
-            canPlay = true; // Allow predictions to be processed
-            // A round will be played when a confident prediction is made in predict()
+            canPlay = true;
         }
         count--;
     }, 1000);
@@ -121,10 +128,48 @@ function playRound(userChoice) {
 
     document.getElementById("game-message").innerText = message;
     updateScoreDisplay();
-    // No need to call startCountdown here, it's called after playRound in predict()
 }
 
 function updateScoreDisplay() {
     document.getElementById("user-score").innerText = userScore;
     document.getElementById("computer-score").innerText = computerScore;
+}
+
+function stopGame() {
+    if (webcam) {
+        webcam.stop();
+        document.getElementById("webcam-container").innerHTML = "";
+    }
+    if (model) {
+        model.dispose(); // Release model resources
+    }
+    clearInterval(timerInterval);
+    window.cancelAnimationFrame(animationFrameId);
+
+    canPlay = false;
+    gameStarted = false;
+
+    document.getElementById("game-message").innerText = "Game Stopped.";
+    document.getElementById("countdown").innerText = "";
+    document.getElementById("computer-choice").innerText = "";
+    labelContainer.innerHTML = ""; // Clear prediction labels
+}
+
+function resetGame(clearWebcamContainer = true) {
+    stopGame(); // Stop current game first
+
+    userScore = 0;
+    computerScore = 0;
+    updateScoreDisplay();
+
+    document.getElementById("game-message").innerText = "Press Start to Play!";
+    document.getElementById("countdown").innerText = "";
+    document.getElementById("computer-choice").innerText = "";
+    labelContainer.innerHTML = ""; // Clear prediction labels
+
+    // If init() is called right after resetGame(), webcam will be setup again
+    // Otherwise, we might want to clear the webcam container
+    if (clearWebcamContainer && document.getElementById("webcam-container")) {
+        document.getElementById("webcam-container").innerHTML = "";
+    }
 }
