@@ -3,63 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lotto and Partnership</title>
+    <title>Rock Paper Scissors with Teachable Machine</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="container">
-        <div class="theme-switcher">
-            <input type="checkbox" id="theme-toggle">
-            <label for="theme-toggle">Toggle Theme</label>
-        </div>
-        <div class="tabs">
-            <button class="tab-link active" onclick="openTab(event, 'lotto')">Lottery Number Generator</button>
-            <button class="tab-link" onclick="openTab(event, 'inquiry')">Partnership Inquiry</button>
-        </div>
-
-        <div id="lotto" class="tab-content" style="display: block;">
-            <h1>Lottery Number Generator</h1>
-            <div class="lotto-numbers">
-                <span class="lotto-number"></span>
-                <span class="lotto-number"></span>
-                <span class="lotto-number"></span>
-                <span class="lotto-number"></span>
-                <span class="lotto-number"></span>
-                <span class="lotto-number"></span>
+        <h1>Rock Paper Scissors</h1>
+        <div id="game-area">
+            <div id="webcam-container"></div>
+            <div id="label-container"></div>
+            <div id="countdown"></div>
+            <div id="result-container">
+                <p>Computer's Choice: <span id="computer-choice"></span></p>
+                <p>You: <span id="user-score">0</span> | Computer: <span id="computer-score">0</span></p>
+                <h2 id="game-message">Press Start to Play!</h2>
             </div>
-            <button id="generate-btn">Generate Numbers</button>
+            <button type="button" onclick="init()">Start Game</button>
         </div>
-
-        <div id="inquiry" class="tab-content">
-            <h1>Partnership Inquiry</h1>
-            <form action="https://formspree.io/f/xkozeqzq" method="POST">
-                <label for="name">Name:</label>
-                <input type="text" id="name" name="name" required>
-
-                <label for="email">Email:</label>
-                <input type="email" id="email" name="email" required>
-
-                <label for="message">Message:</label>
-                <textarea id="message" name="message" rows="5" required></textarea>
-
-                <button type="submit">Submit Inquiry</button>
-            </form>
-        </div>
-        <div id="disqus_thread"></div>
     </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@latest/dist/teachablemachine-image.min.js"></script>
     <script src="main.js"></script>
-    <script>
-        var disqus_config = function () {
-            this.page.url = 'https://seongmcha-pixel.github.io/product-builder-test/';
-            this.page.identifier = 'product-builder-test-v1';
-        };
-        (function() { // DON'T EDIT BELOW THIS LINE
-        var d = document, s = d.createElement('script');
-        s.src = 'https://chacha-test.disqus.com/embed.js';
-        s.setAttribute('data-timestamp', +new Date());
-        (d.head || d.body).appendChild(s);
-        })();
-    </script>
-    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 </body>
 </html>
