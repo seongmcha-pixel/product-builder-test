@@ -206,3 +206,7 @@ button:hover {
     transform: translateX(25px);
 }
 
+#disqus_thread {
+    margin-top: 2rem;
+}
+
